@@ -22,7 +22,9 @@ def convert_relative_time(time_str):
     """Converts relative time (e.g., '43 minutes ago') to an approximate timestamp in local time."""
     now = datetime.now()  # Get current time in local timezone
     
-    if "minute" in time_str:
+    if time_str == 'yesterday':
+        return now - timedelta(days=1)
+    elif "minute" in time_str:
         minutes = int(time_str.split()[0])
         return now - timedelta(minutes=minutes)
     elif "hour" in time_str:
