@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from textblob import TextBlob
 import yfinance as yf  
 from datetime import datetime, timedelta
+from fake_useragent import UserAgent
 
 # ---- FUNCTION TO GENERATE SAFE KEYS ----
 def safe_ticker_key(ticker):
@@ -35,10 +36,13 @@ def convert_relative_time(time_str):
 
 # Function to scrape financial news
 def get_financial_news():
+    ua = UserAgent()
+    headers = {'User-Agent': ua.random}
+
+    # Fetch the website
     url = "https://finance.yahoo.com/topic/stock-market-news/"
-    headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers)
-    soup = BeautifulSoup(response.text, "html.parser")
+    soup = BeautifulSoup(response.text, 'html.parser')
 
     articles = soup.find_all("div", class_="content")  # Adjust selector
     news_list = []
